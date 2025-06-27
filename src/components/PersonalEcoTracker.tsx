@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -140,7 +139,7 @@ const PersonalEcoTracker = () => {
   };
 
   const getCategoryIcon = (category: string, actionTitle: string) => {
-    // Check for specific actions that should use images
+    // Use specific images for each action based on title
     if (actionTitle === 'Utiliser ma gourde réutilisable') {
       return (
         <img 
@@ -171,15 +170,34 @@ const PersonalEcoTracker = () => {
       );
     }
 
-    // Default icons for other categories
-    switch (category) {
-      case 'plastic': return <ShoppingBag className="h-4 w-4" />;
-      case 'water': return <Droplets className="h-4 w-4" />;
-      case 'energy': return <Home className="h-4 w-4" />;
-      case 'waste': return <Recycle className="h-4 w-4" />;
-      case 'transport': return <Car className="h-4 w-4" />;
-      default: return <Leaf className="h-4 w-4" />;
+    if (actionTitle === 'Utiliser mes sacs réutilisables') {
+      return (
+        <img 
+          src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
+          alt="Reusable bag"
+          className="h-4 w-4 object-cover rounded"
+        />
+      );
     }
+
+    if (actionTitle === 'Trier mes déchets correctement') {
+      return (
+        <img 
+          src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop"
+          alt="Waste sorting"
+          className="h-4 w-4 object-cover rounded"
+        />
+      );
+    }
+
+    // Fallback to a default eco image for any other actions
+    return (
+      <img 
+        src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
+        alt="Eco action"
+        className="h-4 w-4 object-cover rounded"
+      />
+    );
   };
 
   const getCategoryColor = (category: string) => {
