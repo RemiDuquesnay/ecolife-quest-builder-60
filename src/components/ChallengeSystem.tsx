@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Trophy, Target, Clock, Star, Gift, User, Zap } from 'lucide-react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 interface Challenge {
   id: string;
@@ -22,7 +23,7 @@ interface Challenge {
 }
 
 const ChallengeSystem = () => {
-  const [challenges, setChallenges] = useState<Challenge[]>([
+  const [challenges, setChallenges] = useLocalStorage<Challenge[]>('eco-challenges', [
     {
       id: '1',
       title: 'Semaine Sans Plastique',
@@ -83,8 +84,8 @@ const ChallengeSystem = () => {
     }
   ]);
 
-  const [userPoints, setUserPoints] = useState(320);
-  const [userBadges, setUserBadges] = useState(['Éco-Débutant', 'Premier Geste']);
+  const [userPoints, setUserPoints] = useLocalStorage<number>('eco-user-points', 320);
+  const [userBadges, setUserBadges] = useLocalStorage<string[]>('eco-user-badges', ['Éco-Débutant', 'Premier Geste']);
 
   const updateChallengeProgress = (challengeId: string, newProgress: number) => {
     setChallenges(prev => prev.map(challenge => {
@@ -104,7 +105,13 @@ const ChallengeSystem = () => {
     if (challenge.reward.type === 'points') {
       setUserPoints(prev => prev + (challenge.reward.value as number));
     } else if (challenge.reward.type === 'badge') {
-      setUserBadges(prev => [...prev, challenge.reward.value as string]);
+      setUserBadges(prev => {
+        const newBadge = challenge.reward.value as string;
+        if (!prev.includes(newBadge)) {
+          return [...prev, newBadge];
+        }
+        return prev;
+      });
     }
   };
 
@@ -143,10 +150,13 @@ const ChallengeSystem = () => {
   // Simulate challenge progress updates
   useEffect(() => {
     const interval = setInterval(() => {
-      const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
-      if (!randomChallenge.completed && Math.random() > 0.8) {
-        const increment = Math.floor(Math.random() * 2) + 1;
-        updateChallengeProgress(randomChallenge.id, Math.min(randomChallenge.target, randomChallenge.progress + increment));
+      const activeChallenges = challenges.filter(c => !c.completed);
+      if (activeChallenges.length > 0) {
+        const randomChallenge = activeChallenges[Math.floor(Math.random() * activeChallenges.length)];
+        if (Math.random() > 0.8) {
+          const increment = Math.floor(Math.random() * 2) + 1;
+          updateChallengeProgress(randomChallenge.id, Math.min(randomChallenge.target, randomChallenge.progress + increment));
+        }
       }
     }, 8000);
 

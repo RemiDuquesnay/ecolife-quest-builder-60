@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Recycle, Leaf, Droplets, Car, ShoppingBag, Home, Utensils, Trophy, CheckCircle } from 'lucide-react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 interface PersonalStats {
   plasticReduction: number;
@@ -32,10 +32,11 @@ interface DailyAction {
   };
   completed: boolean;
   streak: number;
+  lastCompleted?: string; // ISO date string
 }
 
 const PersonalEcoTracker = () => {
-  const [personalStats, setPersonalStats] = useState<PersonalStats>({
+  const [personalStats, setPersonalStats] = useLocalStorage<PersonalStats>('eco-personal-stats', {
     plasticReduction: 25,
     waterSaving: 15,
     energySaving: 30,
@@ -45,7 +46,7 @@ const PersonalEcoTracker = () => {
     moneySaved: 45
   });
 
-  const [dailyActions, setDailyActions] = useState<DailyAction[]>([
+  const [dailyActions, setDailyActions] = useLocalStorage<DailyAction[]>('eco-daily-actions', [
     {
       id: '1',
       title: 'Utiliser ma gourde réutilisable',
@@ -94,24 +95,45 @@ const PersonalEcoTracker = () => {
   ]);
 
   const [feedback, setFeedback] = useState<string>('');
-  const [achievements, setAchievements] = useState<string[]>([]);
+  const [achievements, setAchievements] = useLocalStorage<string[]>('eco-achievements', []);
+
+  // Check if actions need to be reset (new day)
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const lastResetDate = localStorage.getItem('eco-last-reset-date');
+    
+    if (lastResetDate !== today) {
+      // Reset daily actions for new day
+      setDailyActions(prev => prev.map(action => ({
+        ...action,
+        completed: false
+      })));
+      localStorage.setItem('eco-last-reset-date', today);
+    }
+  }, [setDailyActions]);
 
   const completeAction = (actionId: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    
     setDailyActions(prev => prev.map(action => {
       if (action.id === actionId && !action.completed) {
+        const isConsecutiveDay = action.lastCompleted && 
+          new Date(action.lastCompleted).getTime() === new Date(today).getTime() - 24 * 60 * 60 * 1000;
+        
         const updatedAction = { 
           ...action, 
           completed: true,
-          streak: action.streak + 1 
+          streak: isConsecutiveDay ? action.streak + 1 : 1,
+          lastCompleted: today
         };
         
         // Update personal stats
         setPersonalStats(prevStats => ({
           ...prevStats,
-          plasticReduction: prevStats.plasticReduction + (action.impact.plasticReduction || 0),
-          waterSaving: prevStats.waterSaving + (action.impact.waterSaving || 0),
-          energySaving: prevStats.energySaving + (action.impact.energySaving || 0),
-          wasteReduction: prevStats.wasteReduction + (action.impact.wasteReduction || 0),
+          plasticReduction: Math.min(100, prevStats.plasticReduction + (action.impact.plasticReduction || 0)),
+          waterSaving: Math.min(100, prevStats.waterSaving + (action.impact.waterSaving || 0)),
+          energySaving: Math.min(100, prevStats.energySaving + (action.impact.energySaving || 0)),
+          wasteReduction: Math.min(100, prevStats.wasteReduction + (action.impact.wasteReduction || 0)),
           ecoScore: Math.min(100, prevStats.ecoScore + action.impact.ecoScore),
           co2Saved: prevStats.co2Saved + action.impact.co2Saved,
           moneySaved: prevStats.moneySaved + action.impact.moneySaved
@@ -121,7 +143,13 @@ const PersonalEcoTracker = () => {
         
         // Check for streak achievements
         if (updatedAction.streak === 7) {
-          setAchievements(prev => [...prev, `${action.title} - 7 jours d'affilée !`]);
+          setAchievements(prev => {
+            const newAchievement = `${action.title} - 7 jours d'affilée !`;
+            if (!prev.includes(newAchievement)) {
+              return [...prev, newAchievement];
+            }
+            return prev;
+          });
         }
         
         return updatedAction;
@@ -130,13 +158,6 @@ const PersonalEcoTracker = () => {
     }));
 
     setTimeout(() => setFeedback(''), 3000);
-  };
-
-  const resetDailyActions = () => {
-    setDailyActions(prev => prev.map(action => ({
-      ...action,
-      completed: false
-    })));
   };
 
   const getCategoryIcon = (category: string, actionTitle: string) => {
@@ -214,15 +235,6 @@ const PersonalEcoTracker = () => {
 
   const completedToday = dailyActions.filter(action => action.completed).length;
   const totalActions = dailyActions.length;
-
-  useEffect(() => {
-    // Reset actions daily (simulated here with a longer interval for demo)
-    const resetInterval = setInterval(() => {
-      resetDailyActions();
-    }, 30000); // 30 seconds for demo, would be 24 hours in real app
-
-    return () => clearInterval(resetInterval);
-  }, []);
 
   return (
     <div className="p-6 space-y-6">
