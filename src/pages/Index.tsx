@@ -77,6 +77,17 @@ const Index = () => {
             </TabsList>
           </div>
 
+          {/* Eco Illustration */}
+          <div className="flex justify-center mb-8">
+            <div className="w-full max-w-4xl">
+              <img 
+                src="/lovable-uploads/e8a6f15b-0d55-496b-93d4-31c441a94e26.png" 
+                alt="People practicing eco-friendly activities like recycling and sustainable living"
+                className="w-full h-auto rounded-lg shadow-lg glass-effect"
+              />
+            </div>
+          </div>
+
           {/* Tab Contents */}
           <TabsContent value="personal" className="space-y-6">
             <PersonalEcoTracker />
