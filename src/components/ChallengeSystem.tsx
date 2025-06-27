@@ -1,20 +1,19 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Trophy, Target, Clock, Star, Gift } from 'lucide-react';
+import { Trophy, Target, Clock, Star, Gift, User, Zap } from 'lucide-react';
 
 interface Challenge {
   id: string;
   title: string;
   description: string;
-  type: 'daily' | 'weekly' | 'achievement';
+  type: 'daily' | 'weekly' | 'monthly';
   progress: number;
   target: number;
   reward: {
-    type: 'badge' | 'points' | 'unlock';
+    type: 'badge' | 'points';
     value: string | number;
   };
   difficulty: 'easy' | 'medium' | 'hard';
@@ -26,55 +25,66 @@ const ChallengeSystem = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([
     {
       id: '1',
-      title: 'Réducteur de Plastique',
-      description: 'Réduisez l\'usage de plastique de votre ville de 15%',
-      type: 'daily',
-      progress: 8,
-      target: 15,
-      reward: { type: 'badge', value: 'Gardien des Océans' },
+      title: 'Semaine Sans Plastique',
+      description: 'Évitez tout plastique à usage unique pendant 7 jours',
+      type: 'weekly',
+      progress: 3,
+      target: 7,
+      reward: { type: 'badge', value: 'Guerrier Anti-Plastique' },
       difficulty: 'medium',
-      deadline: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      deadline: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000),
       completed: false
     },
     {
       id: '2',
-      title: 'Maître du Recyclage',
-      description: 'Atteignez 80% d\'efficacité dans la gestion des déchets',
-      type: 'weekly',
-      progress: 65,
-      target: 80,
-      reward: { type: 'points', value: 500 },
-      difficulty: 'hard',
-      deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      title: 'Douches Efficaces',
+      description: 'Prendre des douches de moins de 5 minutes pendant 10 jours',
+      type: 'daily',
+      progress: 6,
+      target: 10,
+      reward: { type: 'points', value: 200 },
+      difficulty: 'easy',
+      deadline: new Date(Date.now() + 24 * 60 * 60 * 1000),
       completed: false
     },
     {
       id: '3',
-      title: 'Ville Verte',
-      description: 'Maintenez un score écologique supérieur à 70',
-      type: 'achievement',
-      progress: 45,
-      target: 70,
-      reward: { type: 'unlock', value: 'Nouveaux bâtiments écologiques' },
+      title: 'Maître du Compost',
+      description: 'Composter tous vos déchets organiques pendant 1 mois',
+      type: 'monthly',
+      progress: 15,
+      target: 30,
+      reward: { type: 'badge', value: 'Champion du Compost' },
       difficulty: 'hard',
       completed: false
     },
     {
       id: '4',
-      title: 'Transport Propre',
-      description: 'Implémentez 3 solutions de transport écologique',
+      title: 'Transport Vert',
+      description: 'Utiliser vélo/marche/transport en commun 5 fois cette semaine',
+      type: 'weekly',
+      progress: 2,
+      target: 5,
+      reward: { type: 'points', value: 150 },
+      difficulty: 'medium',
+      deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      completed: false
+    },
+    {
+      id: '5',
+      title: 'Économe en Énergie',
+      description: 'Débrancher tous les appareils en veille chaque soir',
       type: 'daily',
-      progress: 1,
-      target: 3,
-      reward: { type: 'badge', value: 'Mobilité Verte' },
+      progress: 8,
+      target: 14,
+      reward: { type: 'badge', value: 'Économiseur d\'Énergie' },
       difficulty: 'easy',
-      deadline: new Date(Date.now() + 24 * 60 * 60 * 1000),
       completed: false
     }
   ]);
 
-  const [userPoints, setUserPoints] = useState(750);
-  const [userBadges, setUserBadges] = useState(['Débutant Écologique', 'Premier Pas']);
+  const [userPoints, setUserPoints] = useState(320);
+  const [userBadges, setUserBadges] = useState(['Éco-Débutant', 'Premier Geste']);
 
   const updateChallengeProgress = (challengeId: string, newProgress: number) => {
     setChallenges(prev => prev.map(challenge => {
@@ -111,7 +121,7 @@ const ChallengeSystem = () => {
     switch (type) {
       case 'daily': return <Clock className="h-4 w-4" />;
       case 'weekly': return <Target className="h-4 w-4" />;
-      case 'achievement': return <Trophy className="h-4 w-4" />;
+      case 'monthly': return <Trophy className="h-4 w-4" />;
       default: return <Star className="h-4 w-4" />;
     }
   };
@@ -134,11 +144,11 @@ const ChallengeSystem = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
-      if (!randomChallenge.completed && Math.random() > 0.7) {
-        const increment = Math.floor(Math.random() * 5) + 1;
+      if (!randomChallenge.completed && Math.random() > 0.8) {
+        const increment = Math.floor(Math.random() * 2) + 1;
         updateChallengeProgress(randomChallenge.id, Math.min(randomChallenge.target, randomChallenge.progress + increment));
       }
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [challenges]);
@@ -148,18 +158,24 @@ const ChallengeSystem = () => {
       {/* Header with user stats */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-eco-green-700">Défis Écologiques</h1>
-          <p className="text-eco-green-600">Relevez des défis pour sauver la planète !</p>
+          <h1 className="text-3xl font-bold text-eco-green-700">Mes Défis Personnels</h1>
+          <p className="text-eco-green-600">Relevez des défis à votre échelle pour changer vos habitudes !</p>
         </div>
         <Card className="glass-effect">
           <CardContent className="pt-4">
             <div className="flex items-center gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-eco-green-700">{userPoints}</div>
+                <div className="text-2xl font-bold text-eco-green-700 flex items-center gap-1">
+                  <Zap className="h-5 w-5" />
+                  {userPoints}
+                </div>
                 <div className="text-sm text-eco-green-600">Points</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-eco-blue-700">{userBadges.length}</div>
+                <div className="text-2xl font-bold text-eco-blue-700 flex items-center gap-1">
+                  <Trophy className="h-5 w-5" />
+                  {userBadges.length}
+                </div>
                 <div className="text-sm text-eco-blue-600">Badges</div>
               </div>
             </div>
@@ -172,15 +188,13 @@ const ChallengeSystem = () => {
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold text-eco-green-700 flex items-center gap-2">
             <Target className="h-6 w-6" />
-            Défis Actifs
+            Défis en Cours
           </h2>
           
           {challenges.filter(c => !c.completed).map(challenge => (
             <Card 
               key={challenge.id} 
-              className={`glass-effect transition-all duration-300 hover:scale-105 ${
-                challenge.completed ? 'opacity-50' : 'hover:eco-glow'
-              }`}
+              className="glass-effect transition-all duration-300 hover:scale-105 hover:eco-glow"
             >
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
@@ -209,7 +223,7 @@ const ChallengeSystem = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>Progression</span>
-                    <span className="font-medium">{challenge.progress}/{challenge.target}</span>
+                    <span className="font-medium">{challenge.progress}/{challenge.target} jours</span>
                   </div>
                   <Progress 
                     value={(challenge.progress / challenge.target) * 100} 
@@ -221,8 +235,7 @@ const ChallengeSystem = () => {
                       <Gift className="h-4 w-4" />
                       <span>
                         {challenge.reward.type === 'points' ? `${challenge.reward.value} points` :
-                         challenge.reward.type === 'badge' ? `Badge: ${challenge.reward.value}` :
-                         challenge.reward.value}
+                         `Badge: ${challenge.reward.value}`}
                       </span>
                     </div>
                     
@@ -249,15 +262,15 @@ const ChallengeSystem = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3">
                 {userBadges.map((badge, index) => (
                   <div 
                     key={index}
-                    className="flex items-center gap-2 p-3 bg-eco-green-50 rounded-lg border border-eco-green-200 animate-float"
+                    className="flex items-center gap-3 p-3 bg-eco-green-50 rounded-lg border border-eco-green-200 animate-float"
                     style={{ animationDelay: `${index * 0.2}s` }}
                   >
                     <Trophy className="h-5 w-5 text-eco-green-600" />
-                    <span className="text-sm font-medium text-eco-green-700">{badge}</span>
+                    <span className="font-medium text-eco-green-700">{badge}</span>
                   </div>
                 ))}
               </div>
@@ -269,13 +282,14 @@ const ChallengeSystem = () => {
             <CardHeader>
               <CardTitle className="text-eco-green-700 flex items-center gap-2">
                 <Star className="h-5 w-5" />
-                Défis Terminés
+                Défis Réussis
               </CardTitle>
             </CardHeader>
             <CardContent>
               {challenges.filter(c => c.completed).length === 0 ? (
                 <p className="text-eco-green-600 text-center py-4">
-                  Aucun défi terminé pour le moment. Continuez vos efforts !
+                  Aucun défi terminé pour le moment.<br/>
+                  <span className="text-sm">Continuez vos efforts quotidiens !</span>
                 </p>
               ) : (
                 <div className="space-y-3">
@@ -291,7 +305,7 @@ const ChallengeSystem = () => {
                         </div>
                       </div>
                       <Badge className="bg-eco-green-500 text-white">
-                        ✓ Terminé
+                        ✓ Réussi
                       </Badge>
                     </div>
                   ))}
