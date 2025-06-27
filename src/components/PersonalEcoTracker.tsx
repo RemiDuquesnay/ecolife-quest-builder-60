@@ -143,7 +143,7 @@ const PersonalEcoTracker = () => {
     if (actionTitle === 'Utiliser ma gourde réutilisable') {
       return (
         <img 
-          src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
+          src="/lovable-uploads/bb418375-903a-4916-a337-626f64bcb44a.png"
           alt="Water bottle"
           className="h-4 w-4 object-cover rounded"
         />
@@ -153,7 +153,7 @@ const PersonalEcoTracker = () => {
     if (actionTitle === 'Prendre une douche de 5 minutes max') {
       return (
         <img 
-          src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=400&fit=crop"
+          src="/lovable-uploads/2c915ebe-8ced-4c78-aec9-5b332c618103.png"
           alt="Shower scene"
           className="h-4 w-4 object-cover rounded"
         />
@@ -163,7 +163,7 @@ const PersonalEcoTracker = () => {
     if (actionTitle === 'Débrancher mes appareils en veille') {
       return (
         <img 
-          src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop"
+          src="/lovable-uploads/f61e13c0-e71c-4e88-8173-fd43fc72045c.png"
           alt="TV with power button"
           className="h-4 w-4 object-cover rounded"
         />
@@ -173,7 +173,7 @@ const PersonalEcoTracker = () => {
     if (actionTitle === 'Utiliser mes sacs réutilisables') {
       return (
         <img 
-          src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
+          src="/lovable-uploads/39241fbd-ac8b-4210-b92c-65a3bf26552f.png"
           alt="Reusable bag"
           className="h-4 w-4 object-cover rounded"
         />
@@ -183,7 +183,7 @@ const PersonalEcoTracker = () => {
     if (actionTitle === 'Trier mes déchets correctement') {
       return (
         <img 
-          src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop"
+          src="/lovable-uploads/61753b80-33b0-4d52-94ea-72afbfaff0a3.png"
           alt="Waste sorting"
           className="h-4 w-4 object-cover rounded"
         />
@@ -193,7 +193,7 @@ const PersonalEcoTracker = () => {
     // Fallback to a default eco image for any other actions
     return (
       <img 
-        src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
+        src="/lovable-uploads/bb418375-903a-4916-a337-626f64bcb44a.png"
         alt="Eco action"
         className="h-4 w-4 object-cover rounded"
       />
