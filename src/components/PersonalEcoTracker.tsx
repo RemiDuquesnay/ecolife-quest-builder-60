@@ -145,7 +145,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/bb418375-903a-4916-a337-626f64bcb44a.png"
           alt="Water bottle"
-          className="h-4 w-4 object-cover rounded"
+          className="h-32 w-32 object-cover"
         />
       );
     }
@@ -155,7 +155,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/2c915ebe-8ced-4c78-aec9-5b332c618103.png"
           alt="Shower scene"
-          className="h-4 w-4 object-cover rounded"
+          className="h-32 w-32 object-cover"
         />
       );
     }
@@ -165,7 +165,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/f61e13c0-e71c-4e88-8173-fd43fc72045c.png"
           alt="TV with power button"
-          className="h-4 w-4 object-cover rounded"
+          className="h-32 w-32 object-cover"
         />
       );
     }
@@ -175,7 +175,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/39241fbd-ac8b-4210-b92c-65a3bf26552f.png"
           alt="Reusable bag"
-          className="h-4 w-4 object-cover rounded"
+          className="h-32 w-32 object-cover"
         />
       );
     }
@@ -185,7 +185,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/61753b80-33b0-4d52-94ea-72afbfaff0a3.png"
           alt="Waste sorting"
-          className="h-4 w-4 object-cover rounded"
+          className="h-32 w-32 object-cover"
         />
       );
     }
@@ -195,7 +195,7 @@ const PersonalEcoTracker = () => {
       <img 
         src="/lovable-uploads/bb418375-903a-4916-a337-626f64bcb44a.png"
         alt="Eco action"
-        className="h-4 w-4 object-cover rounded"
+        className="h-32 w-32 object-cover"
       />
     );
   };
@@ -327,7 +327,7 @@ const PersonalEcoTracker = () => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-full ${getCategoryColor(action.category)}`}>
+                    <div className="flex-shrink-0">
                       {getCategoryIcon(action.category, action.title)}
                     </div>
                     <div>
