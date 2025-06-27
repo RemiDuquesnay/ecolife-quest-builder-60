@@ -139,7 +139,39 @@ const PersonalEcoTracker = () => {
     })));
   };
 
-  const getCategoryIcon = (category: string) => {
+  const getCategoryIcon = (category: string, actionTitle: string) => {
+    // Check for specific actions that should use images
+    if (actionTitle === 'Utiliser ma gourde réutilisable') {
+      return (
+        <img 
+          src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
+          alt="Water bottle"
+          className="h-4 w-4 object-cover rounded"
+        />
+      );
+    }
+    
+    if (actionTitle === 'Prendre une douche de 5 minutes max') {
+      return (
+        <img 
+          src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=400&fit=crop"
+          alt="Shower scene"
+          className="h-4 w-4 object-cover rounded"
+        />
+      );
+    }
+    
+    if (actionTitle === 'Débrancher mes appareils en veille') {
+      return (
+        <img 
+          src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop"
+          alt="TV with power button"
+          className="h-4 w-4 object-cover rounded"
+        />
+      );
+    }
+
+    // Default icons for other categories
     switch (category) {
       case 'plastic': return <ShoppingBag className="h-4 w-4" />;
       case 'water': return <Droplets className="h-4 w-4" />;
@@ -278,7 +310,7 @@ const PersonalEcoTracker = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className={`p-2 rounded-full ${getCategoryColor(action.category)}`}>
-                      {getCategoryIcon(action.category)}
+                      {getCategoryIcon(action.category, action.title)}
                     </div>
                     <div>
                       <h3 className={`font-medium ${action.completed ? 'text-eco-green-700' : 'text-gray-900'}`}>
