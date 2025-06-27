@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -145,7 +146,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/bb418375-903a-4916-a337-626f64bcb44a.png"
           alt="Water bottle"
-          className="h-32 w-32 object-cover"
+          className="h-32 w-32 object-cover rounded-lg"
         />
       );
     }
@@ -155,7 +156,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/2c915ebe-8ced-4c78-aec9-5b332c618103.png"
           alt="Shower scene"
-          className="h-32 w-32 object-cover"
+          className="h-32 w-32 object-cover rounded-lg"
         />
       );
     }
@@ -165,7 +166,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/f61e13c0-e71c-4e88-8173-fd43fc72045c.png"
           alt="TV with power button"
-          className="h-32 w-32 object-cover"
+          className="h-32 w-32 object-cover rounded-lg"
         />
       );
     }
@@ -175,7 +176,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/39241fbd-ac8b-4210-b92c-65a3bf26552f.png"
           alt="Reusable bag"
-          className="h-32 w-32 object-cover"
+          className="h-32 w-32 object-cover rounded-lg"
         />
       );
     }
@@ -185,7 +186,7 @@ const PersonalEcoTracker = () => {
         <img 
           src="/lovable-uploads/61753b80-33b0-4d52-94ea-72afbfaff0a3.png"
           alt="Waste sorting"
-          className="h-32 w-32 object-cover"
+          className="h-32 w-32 object-cover rounded-lg"
         />
       );
     }
@@ -195,7 +196,7 @@ const PersonalEcoTracker = () => {
       <img 
         src="/lovable-uploads/bb418375-903a-4916-a337-626f64bcb44a.png"
         alt="Eco action"
-        className="h-32 w-32 object-cover"
+        className="h-32 w-32 object-cover rounded-lg"
       />
     );
   };

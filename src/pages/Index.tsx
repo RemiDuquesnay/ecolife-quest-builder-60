@@ -19,7 +19,11 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-eco-green-500 rounded-full animate-pulse-eco">
-                <User className="h-8 w-8 text-white" />
+                <img 
+                  src="/lovable-uploads/9fc411df-be07-4e95-a05d-9683f3fa3db5.png"
+                  alt="EcoLife Quest Logo"
+                  className="h-8 w-8 object-contain"
+                />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-eco-green-700">EcoLife Quest</h1>
