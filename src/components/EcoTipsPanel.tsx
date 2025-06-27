@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -304,7 +303,7 @@ const EcoTipsPanel = () => {
                   
                   <div className="flex justify-between items-center">
                     <div className="flex gap-1">
-                      <Badge size="sm" className={getImpactColor(tip.impact)}>
+                      <Badge className={getImpactColor(tip.impact)}>
                         {tip.impact === 'high' ? 'Élevé' : 
                          tip.impact === 'medium' ? 'Moyen' : 'Faible'}
                       </Badge>
